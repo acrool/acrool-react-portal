@@ -1,11 +1,7 @@
 # Acrool React Portal
 
-<a href="https://acrool-react-portal.pages.dev/" title="Acrool React Portal - This is a toast message function for React development notifications">
-    <img src="https://raw.githubusercontent.com/acrool/acrool-react-portal/main/example/public/og.webp" alt="Acrool React Portal Logo"/>
-</a>
-
 <p align="center">
-    This is a toast message function for React development notifications
+    Throw React elements (ex: modal, dialog, toaster) to external using elements (usually used for
 </p>
 
 <div align="center">
@@ -24,9 +20,8 @@
 
 ## Features
 
-- Supports 5 status colors: default, success, info, warning, danger
-- Call via global method
-- Configurable disappearance delay seconds
+- Pass the component to the external Dom through the portal
+- Use framer-motion to achieve the function of inserting and removing components with animation
 
 ## Install
 
@@ -36,51 +31,29 @@ yarn add @acrool/react-portal
 
 ## Usage
 
-add in your index.tsx
-```tst
-import "@acrool/react-portal/dist/index.css";
-```
-
 add in your App.tsx
 
 ```tsx
-import {PortalPortal} from "@acrool/react-portal";
+import ReactPortal from '@acrool/react-portal';
 
 const App = () => {
     return (
-        <div>
-            <BaseUsed/>
-            <PortalPortal timeout={3000}/>
-        </div>
+        <ReactPortal
+            id={props.id || rootId}
+            className={styles.root}
+        >
+            {item && renderDialog()}
+        </ReactPortal>
     );
 };
 ```
-
-then in your page
-```tsx
-import {EStatus, toast} from '@acrool/react-portal';
-
-const Example = () => {
-    return (
-        <div>
-            <button type="button" onClick={() => toast({message: 'usePortal message'})}>
-                usePortal message
-            </button>
-        </div>
-    );
-};
-```
-
-- toast
-- toast.success
-- toast.info
-- toast.warning
-- toast.danger
 
 
 There is also a example that you can play with it:
 
-[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-portal/main/play-in-example-button.svg)](https://acrool-react-portal.pages.dev)
+[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-dialog/main/play-in-example-button.svg)](https://acrool-react-dialog.pages.dev)
+
+[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-toaster/main/play-in-example-button.svg)](https://acrool-react-toaster.pages.dev)
 
 
 ## License
