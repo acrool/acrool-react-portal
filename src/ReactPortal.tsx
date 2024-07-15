@@ -22,41 +22,45 @@ interface IState {}
  * 將內容傳送到外部Body內的方法
  */
 class ReactPortal extends React.Component<IProps, IState> {
-
-    el: HTMLElement;
+    _el: HTMLElement;
 
     static defaultProps = {
         isOpen: false,
         parentSelector: () => document.getElementById('root'),
     };
 
+
     constructor(props: IProps) {
         super(props);
         const el = document.createElement('div');
-        el.id = props.id;
-        el.className = props.className;
-        this.el = el;
+        el.dataset.id = props.id;
+        if(props.className){
+            el.className = props.className;
+        }
+        this._el = el;
     }
 
     componentDidMount() {
         const parent = getParentElement(this.props.parentSelector);
-        if(parent && !document.getElementById(this.props.id)){
-            parent.appendChild(this.el);
+        if(parent){
+            parent.appendChild(this._el);
         }
     }
 
     componentWillUnmount() {
         const parent = getParentElement(this.props.parentSelector);
         if(parent){
-            parent.removeChild(this.el);
+            parent.removeChild(this._el);
         }
     }
+
+
 
     renderPortal = (): React.ReactPortal => {
         const createPortal = getCreatePortal();
         return createPortal(
             this.props.children,
-            this.el,
+            this._el,
         );
     };
 

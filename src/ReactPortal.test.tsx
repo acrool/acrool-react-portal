@@ -35,15 +35,24 @@ it('renders content in a portal', () => {
     const parentSelector = () => parentElement;
 
     act(() => {
-        root.render(
-            <ReactPortal id="test-portal" parentSelector={parentSelector}>
-                <div>Portal Content</div>
+        root.render(<div>
+            <ReactPortal id="portalA" parentSelector={parentSelector}>
+                <div>Portal Content1</div>
             </ReactPortal>
+
+            <ReactPortal id="portalB" parentSelector={parentSelector}>
+                <div>Portal Content2_1</div>
+            </ReactPortal>
+            <ReactPortal id="portalB" parentSelector={parentSelector}>
+                <div>Portal Content2_2</div>
+            </ReactPortal>
+        </div>
         );
     });
 
-    expect(parentElement.querySelector('#test-portal')).toBeTruthy();
-    expect(parentElement.querySelector('#test-portal').textContent).toBe('Portal Content');
+    expect(parentElement.querySelector('[data-id="portalA"]').textContent).toBe('Portal Content1');
+    expect(parentElement.querySelector('[data-id="portalB"]').textContent).toBe('Portal Content2_1');
+    expect(parentElement.querySelectorAll('[data-id="portalB"]').length).toBe(2);
 
     act(() => {
         root.unmount();
