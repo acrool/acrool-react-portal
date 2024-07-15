@@ -35,7 +35,7 @@ class ReactPortal extends React.Component<IProps, IState> {
         super(props);
 
         let el = document.getElementById(props.id);
-        if(el){
+        if(!el){
             el = document.createElement('div');
             el.id = props.id;
             el.className = props.className;
