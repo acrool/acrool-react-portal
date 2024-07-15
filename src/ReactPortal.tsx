@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 const getCreatePortal = () => ReactDOM.createPortal;
@@ -24,7 +24,6 @@ interface IState {}
 class ReactPortal extends React.Component<IProps, IState> {
 
     el: HTMLElement;
-    portal?: Component;
 
     static defaultProps = {
         isOpen: false,
@@ -33,22 +32,17 @@ class ReactPortal extends React.Component<IProps, IState> {
 
     constructor(props: IProps) {
         super(props);
-
-        let el = document.getElementById(props.id);
-        if(!el){
-            el = document.createElement('div');
-            el.id = props.id;
-            el.className = props.className;
-        }
+        const el = document.createElement('div');
+        el.id = props.id;
+        el.className = props.className;
         this.el = el;
     }
 
     componentDidMount() {
         const parent = getParentElement(this.props.parentSelector);
-        if(parent){
+        if(parent && !document.getElementById(this.props.id)){
             parent.appendChild(this.el);
         }
-
     }
 
     componentWillUnmount() {
@@ -57,11 +51,6 @@ class ReactPortal extends React.Component<IProps, IState> {
             parent.removeChild(this.el);
         }
     }
-
-
-    portalRef = (ref: Component) => {
-        this.portal = ref;
-    };
 
     renderPortal = (): React.ReactPortal => {
         const createPortal = getCreatePortal();

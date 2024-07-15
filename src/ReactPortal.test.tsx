@@ -29,6 +29,7 @@ afterEach(() => {
 
 it('renders content in a portal', () => {
     const parentElement = document.createElement('div');
+    parentElement.id = 'root';
     document.body.appendChild(parentElement);
 
     const parentSelector = () => parentElement;
