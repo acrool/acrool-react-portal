@@ -6,9 +6,9 @@
     "acrool",
     "react",
     "typescript",
-    "portal",
     "portal"
   ],
+  "author": "info@acrool.com",
   "private": false,
   "type": "module",
   "license": "MIT",
