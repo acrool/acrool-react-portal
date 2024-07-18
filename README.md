@@ -21,7 +21,6 @@ https://react.dev/reference/react-dom/createPortal
 ## Features
 
 - Pass the component to the external Dom through the portal
-- Use framer-motion to achieve the function of inserting and removing components with animation
 
 ## Install
 
@@ -39,7 +38,7 @@ import ReactPortal from '@acrool/react-portal';
 const App = () => {
     return (
         <ReactPortal
-            id={props.id || rootId}
+            id="acrool-react-modal"
             className={styles.root}
         >
             {item && renderDialog()}
@@ -52,6 +51,8 @@ const App = () => {
 There is also a example that you can play with it:
 
 [![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-dialog/main/play-in-example-button.svg)](https://acrool-react-dialog.pages.dev)
+
+[![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-dialog/main/play-in-example-button.svg)](https://acrool-react-modal.pages.dev)
 
 [![Play react-editext-example](https://raw.githubusercontent.com/acrool/acrool-react-toaster/main/play-in-example-button.svg)](https://acrool-react-toaster.pages.dev)
 
