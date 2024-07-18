@@ -1,6 +1,6 @@
 {
   "name": "@acrool/react-portal",
-  "version": "0.0.4-alpha.4",
+  "version": "0.0.4",
   "description": "Portal library based for Reactjs",
   "keywords": [
     "acrool",
