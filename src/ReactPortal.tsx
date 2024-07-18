@@ -1,13 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {TSelector} from './types';
 
-const getCreatePortal = () => ReactDOM.createPortal;
 
-type TSelector = () => HTMLElement
-
-function getParentElement(parentSelector: TSelector): HTMLElement {
-    return parentSelector();
-}
 
 interface IProps{
     id: string
@@ -25,7 +20,6 @@ class ReactPortal extends React.Component<IProps, IState> {
     _el: HTMLElement;
 
     static defaultProps = {
-        isOpen: false,
         parentSelector: () => document.getElementById('root'),
     };
 
@@ -33,7 +27,7 @@ class ReactPortal extends React.Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         const el = document.createElement('div');
-        el.dataset.id = props.id;
+        el.id = props.id;
         if(props.className){
             el.className = props.className;
         }
@@ -41,14 +35,14 @@ class ReactPortal extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        const parent = getParentElement(this.props.parentSelector);
+        const parent = this.props.parentSelector();
         if(parent){
             parent.appendChild(this._el);
         }
     }
 
     componentWillUnmount() {
-        const parent = getParentElement(this.props.parentSelector);
+        const parent = this.props.parentSelector();
         if(parent){
             parent.removeChild(this._el);
         }
@@ -57,8 +51,7 @@ class ReactPortal extends React.Component<IProps, IState> {
 
 
     renderPortal = (): React.ReactPortal => {
-        const createPortal = getCreatePortal();
-        return createPortal(
+        return ReactDOM.createPortal(
             this.props.children,
             this._el,
         );

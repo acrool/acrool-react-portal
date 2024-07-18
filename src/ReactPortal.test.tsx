@@ -50,9 +50,9 @@ it('renders content in a portal', () => {
         );
     });
 
-    expect(parentElement.querySelector('[data-id="portalA"]').textContent).toBe('Portal Content1');
-    expect(parentElement.querySelector('[data-id="portalB"]').textContent).toBe('Portal Content2_1');
-    expect(parentElement.querySelectorAll('[data-id="portalB"]').length).toBe(2);
+    expect(parentElement.querySelector('#portalA').textContent).toBe('Portal Content1');
+    expect(parentElement.querySelector('#portalB').textContent).toBe('Portal Content2_1');
+    expect(parentElement.querySelectorAll('#portalB').length).toBe(2);
 
     act(() => {
         root.unmount();
