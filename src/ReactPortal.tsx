@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {TSelector} from './types';
 
 
 
@@ -8,7 +7,8 @@ interface IProps{
     id: string
     className?: string
     children: React.ReactNode
-    parentSelector: TSelector
+    containerId?: string
+
 }
 
 interface IState {}
@@ -20,8 +20,12 @@ class ReactPortal extends React.Component<IProps, IState> {
     _el: HTMLElement;
 
     static defaultProps = {
-        parentSelector: () => document.getElementById('root'),
+        containerId: 'root'
     };
+
+    get typeProps(){
+        return this.props as IProps & typeof ReactPortal.defaultProps;
+    }
 
 
     constructor(props: IProps) {
@@ -35,16 +39,18 @@ class ReactPortal extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        const parent = this.props.parentSelector();
-        if(parent){
-            parent.appendChild(this._el);
+        const container = document.getElementById(this.typeProps.containerId);
+        if(!container){
+            throw Error('portal container is null');
         }
+
+        container.appendChild(this._el);
     }
 
     componentWillUnmount() {
-        const parent = this.props.parentSelector();
-        if(parent){
-            parent.removeChild(this._el);
+        const container = document.getElementById(this.typeProps.containerId);
+        if(container){
+            container.removeChild(this._el);
         }
     }
 

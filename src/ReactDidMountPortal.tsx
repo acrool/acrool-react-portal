@@ -1,12 +1,11 @@
 import React, {useEffect,useState} from 'react';
 import ReactDOM from 'react-dom';
-import {TSelector} from './types';
 
 
 
 interface IProps {
     children: React.ReactNode;
-    rootSelector: TSelector;
+    containerId?: string;
 }
 
 /**
@@ -14,7 +13,7 @@ interface IProps {
  */
 const ReactDidMountPortal = ({
     children,
-    rootSelector,
+    containerId = 'root',
 }: IProps) => {
     const [isMount, setIsMount] = useState(false);
 
@@ -23,9 +22,15 @@ const ReactDidMountPortal = ({
     }, []);
 
     const renderPortal = (): React.ReactPortal | null => {
+        
+        const container = document.getElementById(containerId);
+        
+        if(!container){
+            throw Error('portal container is null');
+        }
 
         if (isMount) {
-            return ReactDOM.createPortal(children, rootSelector());
+            return ReactDOM.createPortal(children, container);
         }
 
         return null;
