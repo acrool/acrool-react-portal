@@ -3,11 +3,11 @@ import {act} from '@testing-library/react';
 import ReactPortal from './ReactPortal';
 
 
-import {createRoot} from 'react-dom/client';
+import {createRoot, Root} from 'react-dom/client';
 
 
-let container = null;
-let root = null;
+let container: HTMLDivElement|null = null;
+let root: Root|null = null;
 
 beforeEach(() => {
     // 設置 DOM 元素作為渲染目標
@@ -35,27 +35,33 @@ it('renders content in a portal', () => {
     const parentSelector = () => parentElement;
 
     act(() => {
-        root.render(<div>
-            <ReactPortal id="portalA" parentSelector={parentSelector}>
+        root?.render(<div>
+            <ReactPortal id="portalA" containerId="root">
                 <div>Portal Content1</div>
             </ReactPortal>
 
-            <ReactPortal id="portalB" parentSelector={parentSelector}>
+            <ReactPortal id="portalB" containerId="root">
                 <div>Portal Content2_1</div>
             </ReactPortal>
-            <ReactPortal id="portalB" parentSelector={parentSelector}>
+            <ReactPortal id="portalB" containerId="root">
                 <div>Portal Content2_2</div>
             </ReactPortal>
         </div>
         );
     });
 
-    expect(parentElement.querySelector('#portalA').textContent).toBe('Portal Content1');
-    expect(parentElement.querySelector('#portalB').textContent).toBe('Portal Content2_1');
+
+    const portalA = parentElement.querySelector('#portalA');
+    const portalB = parentElement.querySelector('#portalB');
+
+    expect(portalA?.textContent).toBe('Portal Content1');
+    expect(portalB?.textContent).toBe('Portal Content2_1');
     expect(parentElement.querySelectorAll('#portalB').length).toBe(2);
 
     act(() => {
-        root.unmount();
+        if(root){
+            root.unmount();
+        }
     });
 
     expect(parentElement.querySelector('#test-portal')).toBeFalsy();

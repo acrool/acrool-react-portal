@@ -1,1 +1,1 @@
-export type TSelector = () => HTMLElement
+export type TContainerSelector = () => HTMLElement|null
