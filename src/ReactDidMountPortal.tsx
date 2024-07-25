@@ -25,11 +25,7 @@ const ReactDidMountPortal = ({
         
         const container = document.getElementById(containerId);
         
-        if(!container){
-            throw Error('portal container is null');
-        }
-
-        if (isMount) {
+        if (isMount && container) {
             return ReactDOM.createPortal(children, container);
         }
 
