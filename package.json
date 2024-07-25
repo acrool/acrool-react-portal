@@ -47,11 +47,9 @@
     "release:alpha": "standard-version --prerelease alpha"
   },
   "peerDependencies": {
+    "clsx": "^2.x",
     "react": "^18.x",
     "react-dom": "^18.x"
-  },
-  "dependencies": {
-    "clsx": "^2.x"
   },
   "devDependencies": {
     "@swc/jest": "^0.2.27",

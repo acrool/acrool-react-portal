@@ -40,18 +40,12 @@ class ReactPortal extends React.Component<IProps, IState> {
 
     componentDidMount() {
         const container = document.getElementById(this.typeProps.containerId);
-        if(!container){
-            throw Error('portal container is null');
-        }
-
-        container.appendChild(this._el);
+        container?.appendChild(this._el);
     }
 
     componentWillUnmount() {
         const container = document.getElementById(this.typeProps.containerId);
-        if(container){
-            container.removeChild(this._el);
-        }
+        container?.removeChild(this._el);
     }
 
 
