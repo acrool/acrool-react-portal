@@ -41,7 +41,6 @@
     "wrangler": "3.26.0",
 
     "storybook": "^8.1.10",
-    "@acrool/react-portal": "link:..",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
