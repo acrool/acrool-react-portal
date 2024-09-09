@@ -7,7 +7,7 @@ interface IProps{
     id: string
     className?: string
     children: React.ReactNode
-    selector?: () => HTMLElement|null
+    containerSelector?: () => HTMLElement|null
 
 }
 
@@ -20,7 +20,7 @@ class ReactPortal extends React.Component<IProps, IState> {
     _el: HTMLElement;
 
     static defaultProps = {
-        selector: () => document.body,
+        containerSelector: () => document.body,
     };
 
     get typeProps(){
@@ -39,12 +39,12 @@ class ReactPortal extends React.Component<IProps, IState> {
     }
 
     componentDidMount() {
-        const container = this.typeProps.selector();
+        const container = this.typeProps.containerSelector();
         container?.appendChild(this._el);
     }
 
     componentWillUnmount() {
-        const container = this.typeProps.selector();
+        const container = this.typeProps.containerSelector();
         container?.removeChild(this._el);
     }
 

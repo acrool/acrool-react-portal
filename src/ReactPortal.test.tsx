@@ -36,14 +36,14 @@ it('renders content in a portal', () => {
 
     act(() => {
         root?.render(<div>
-            <ReactPortal id="portalA" containerId="root">
+            <ReactPortal id="portalA" containerSelector={() => document.getElementById('root')}>
                 <div>Portal Content1</div>
             </ReactPortal>
 
-            <ReactPortal id="portalB" containerId="root">
+            <ReactPortal id="portalB" containerSelector={() => document.getElementById('root')}>
                 <div>Portal Content2_1</div>
             </ReactPortal>
-            <ReactPortal id="portalB" containerId="root">
+            <ReactPortal id="portalB" containerSelector={() => document.getElementById('root')}>
                 <div>Portal Content2_2</div>
             </ReactPortal>
         </div>

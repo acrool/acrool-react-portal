@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 
 interface IProps {
     children: React.ReactNode;
-    selector?: () => HTMLElement;
+    containerSelector?: () => HTMLElement;
 }
 
 /**
@@ -13,7 +13,7 @@ interface IProps {
  */
 const ReactDidMountPortal = ({
     children,
-    selector = () => document.body,
+    containerSelector = () => document.body,
 }: IProps) => {
     const [isMount, setIsMount] = useState(false);
 
@@ -23,7 +23,7 @@ const ReactDidMountPortal = ({
 
     const renderPortal = (): React.ReactPortal | null => {
         
-        const container = selector();
+        const container = containerSelector();
         
         if (isMount && container) {
             return ReactDOM.createPortal(children, container);

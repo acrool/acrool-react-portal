@@ -18,7 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
     args: {
         id: 'acrool-react-modal',
-        selector: () => document.getElementById('example-root'),
+        containerSelector: () => document.getElementById('example-root'),
         children: <div>This is portal content</div>
     },
     render: (args) => {
