@@ -1,11 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as CSS from 'csstype';
+import {objectKeys} from './utils';
 
 
 
 interface IProps{
     id: string
     className?: string
+    style?: CSS.Properties
     children: React.ReactNode
     containerSelector?: () => HTMLElement|null
 
@@ -34,6 +37,11 @@ class ReactPortal extends React.Component<IProps, IState> {
         el.id = props.id;
         if(props.className){
             el.className = props.className;
+        }
+        if(props.style){
+            objectKeys(props.style).forEach(key => {
+                el.style[key] = props.style?.[key];
+            });
         }
         this._el = el;
     }
