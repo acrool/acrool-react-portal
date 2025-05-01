@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createDiv} from './utils';
+
 import {IPortalProps} from './types';
+import {createDiv} from './utils';
 
 
 

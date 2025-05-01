@@ -1,9 +1,8 @@
-import React from 'react';
 import {act} from '@testing-library/react';
-import ReactPortal from './ReactPortal';
-
-
+import React from 'react';
 import {createRoot, Root} from 'react-dom/client';
+
+import ReactPortal from './ReactPortal';
 
 
 let container: HTMLDivElement|null = null;
