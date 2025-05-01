@@ -1,64 +1,53 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import * as CSS from 'csstype';
-import {objectKeys} from './utils';
+
+import {IPortalProps} from './types';
+import {createDiv} from './utils';
 
 
-
-interface IProps{
-    id: string
-    className?: string
-    style?: CSS.Properties
-    children: React.ReactNode
-    containerSelector?: () => HTMLElement|null
-
-}
 
 interface IState {}
 
 /**
  * 將內容傳送到外部Body內的方法
  */
-class ReactPortal extends React.Component<IProps, IState> {
-    _el: HTMLElement;
+class ReactPortal extends React.Component<IPortalProps, IState> {
+    _el: HTMLElement|null = null;
 
     static defaultProps = {
         containerSelector: () => document.body,
     };
 
     get typeProps(){
-        return this.props as IProps & typeof ReactPortal.defaultProps;
+        return this.props as IPortalProps & typeof ReactPortal.defaultProps;
     }
 
 
-    constructor(props: IProps) {
+    constructor(props: IPortalProps) {
         super(props);
-        const el = document.createElement('div');
-        el.id = props.id;
-        if(props.className){
-            el.className = props.className;
-        }
-        if(props.style){
-            objectKeys(props.style).forEach(key => {
-                el.style[key] = props.style?.[key];
-            });
-        }
-        this._el = el;
+
+        if (typeof window === 'undefined') return;
+        this._el = createDiv(props);
     }
 
     componentDidMount() {
+        this._el = this._el ? this._el: createDiv(this.props);
+
         const container = this.typeProps.containerSelector();
         container?.appendChild(this._el);
     }
 
     componentWillUnmount() {
+        if(!this._el) return;
         const container = this.typeProps.containerSelector();
         container?.removeChild(this._el);
     }
 
 
 
-    renderPortal = (): React.ReactPortal => {
+    renderPortal = (): React.ReactPortal|null => {
+        if(!this._el) return null;
+
         return ReactDOM.createPortal(
             this.props.children,
             this._el,

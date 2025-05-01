@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 
 
 interface IProps {
-    children: React.ReactNode;
-    containerSelector?: () => HTMLElement | null;
+    children: React.ReactNode
+    containerSelector?: () => HTMLElement | null
 }
 
 /**
