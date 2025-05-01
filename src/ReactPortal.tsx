@@ -1,75 +1,72 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import * as CSS from 'csstype';
-import {objectKeys} from './utils';
+import { objectKeys } from './utils';
 
-
-
-interface IProps{
+interface IProps {
     id: string
     className?: string
     style?: CSS.Properties
     children: React.ReactNode
-    containerSelector?: () => HTMLElement|null
-
+    containerSelector?: () => HTMLElement | null
 }
-
-interface IState {}
 
 /**
  * 將內容傳送到外部Body內的方法
  */
-class ReactPortal extends React.Component<IProps, IState> {
-    _el: HTMLElement;
+const ReactPortal: React.FC<IProps> = ({
+    id,
+    className,
+    style,
+    children,
+    containerSelector = () => document.body
+}) => {
+    const elRef = useRef<HTMLElement | null>(null);
+    const [mounted, setMounted] = useState(false);
 
-    static defaultProps = {
-        containerSelector: () => document.body,
-    };
-
-    get typeProps(){
-        return this.props as IProps & typeof ReactPortal.defaultProps;
-    }
-
-
-    constructor(props: IProps) {
-        super(props);
+    useEffect(() => {
+        // 创建元素
         const el = document.createElement('div');
-        el.id = props.id;
-        if(props.className){
-            el.className = props.className;
+        el.id = id;
+        if (className) {
+            el.className = className;
         }
-        if(props.style){
-            objectKeys(props.style).forEach(key => {
-                el.style[key] = props.style?.[key];
+        if (style) {
+            objectKeys(style).forEach(key => {
+                el.style[key] = style?.[key];
             });
         }
-        this._el = el;
+        elRef.current = el;
+
+        // 添加到容器
+        const container = containerSelector();
+        if (container) {
+            container.appendChild(el);
+            setMounted(true);
+        }
+
+        // 清理函数
+        return () => {
+            if (elRef.current) {
+                const container = containerSelector();
+                if (container && container.contains(elRef.current)) {
+                    container.removeChild(elRef.current);
+                }
+                elRef.current = null;
+            }
+            setMounted(false);
+        };
+    }, [id, className, style, containerSelector]);
+
+    // 在服务器端渲染时返回 null
+    if (typeof window === 'undefined' || !mounted || !elRef.current) {
+        return null;
     }
 
-    componentDidMount() {
-        const container = this.typeProps.containerSelector();
-        container?.appendChild(this._el);
-    }
-
-    componentWillUnmount() {
-        const container = this.typeProps.containerSelector();
-        container?.removeChild(this._el);
-    }
-
-
-
-    renderPortal = (): React.ReactPortal => {
-        return ReactDOM.createPortal(
-            this.props.children,
-            this._el,
-        );
-    };
-
-
-    render() {
-        return this.renderPortal();
-    }
-
-}
+    return ReactDOM.createPortal(
+        children,
+        elRef.current
+    );
+};
 
 export default ReactPortal;
